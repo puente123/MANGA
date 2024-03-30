@@ -1,0 +1,146 @@
+@startuml
+skinparam classAttributeIconSize 0
+' skinparam backgroundColor #D3D3D3
+hide circle
+
+package javax.swing {
+class JFrame {
+}
+class JOptionPane {
+}
+
+}
+
+package gui {
+
+class Manga #00EF00 {
+  {static} main(args : String[]) 
+}
+
+enum View #00EF00 {
+CUSTOMERS
+PRODUCTS
+ORDERS
+}
+
+class MainWin #00EF00 extends javax.swing.JFrame {
+-store : Store
+-display : JLabel
+-view : View
++MainWin(title : String)
+#onNewClick()
+#onOpenClick()
+#onSaveClick()
+#onSaveAsClick()
+#onQuitClick()
+#onInsertToolClick()
+#onInsertPlantClick()
+#onInsertOrderClick()
+#onViewCustomersClick()
+#onViewProductsClick()
+#onViewOrdersClick()
+#onHelpClick()
+#onAboutClick()
+
+}
+
+MainWin --* View 
+Manga - MainWin
+javax.swing.JOptionPane -- MainWin
+}
+
+package mdi {
+
+class Manga {
+  {static} main(args : String[]) 
+}
+
+class Controller {
+  -store : Store
+  -view : View
+  -mainMenu : Menu
+  -output : String
+  -isRunning : boolean
+  -in : Scanner
+  -filename : String
+--
+  +Controller(storeName : string)
+  +mdi()
+..
+  -exit()
+  -placeOrder()
+  -newCustomer()
+  -newTool()
+  -newPlant()
+  -switchView()
+  -open()
+  -saveAs()
+  -save()
+..
+  -getView() : String
+  -selectFromMenu() : Integer
+  -print(s : string)
+  -getString(prompt : string)
+  -getInt(prompt : string) : Integer
+  -getDouble(prompt : string) : Double
+}
+class Runnable <<interface>> {
+  +{abstract} run()
+}
+
+class MenuItem #D3D3D3 extends Runnable {
+  -menuText : Object
+  -menuResponse : Runnable
+  +MenuItem(menuText : Object, menuResponse : Runnable)
+  +toString() : String <<override>>
+  +run() <<override>>
+}
+
+class Menu {
+  -items : MenuItem[] <<ArrayList>>
+  +addMenuItem(item : MenuItem)
+  +toString() : String <<override>>
+  +run(itemNumber : int)
+}
+
+Note as N3
+  You may use Menu and MenuItem
+  from Lecture 10 without attribution.
+  Runnable is in package java.lang.
+end Note
+
+MenuItem --o Menu
+Controller - Menu
+Manga -- Controller
+
+}
+
+package store {
+
+class Store {
+  -name : string
+  -customers : Customer[]
+  -products : Product[]
+  -orders : Order[]
+--
+  +Store(name : string)
+  +Store(br : BufferedReader)
+  +save(bw : BufferedWriter)
+  +getName() : string
+..
+  +addCustomer(customer : Customer)
+  +getCustomerList() : string
+..
+  +addProduct(product : Product)
+  +getProductList() : string
+..
+  +newOrder(customer : int) : int
+  +addToOrder(order : int, product : int, quantity : int)
+  +getOrderList() : string
+}
+
+}
+
+Controller -- Store
+MainWin -- Store
+@enduml
