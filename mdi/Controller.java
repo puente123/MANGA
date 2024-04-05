@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
+
+
 import store.Store;
 //import store.View;
 import store.Customer;
@@ -78,11 +80,11 @@ public class Controller {
         }
     }
 
-    private void exit(){
+    public void exit(){
         isRunning = false;
     }
 
-    private void placeOrder(){
+    public void placeOrder(){
 
         System.out.println("\nPlacing a New Order\n");
 
@@ -119,7 +121,7 @@ public class Controller {
 
     }
 
-    private void newCustomer(){
+    public void newCustomer(){
 
         String name = getString("Please input the Customer's Name:");
         String email = getString("Please input the Customer's Email:");
@@ -131,7 +133,7 @@ public class Controller {
 
     }
 
-    private void newTool(){
+    public void newTool(){
     
         String name = getString("Please input the Tools Name:");
         int toolPrice = getInt("Please input the Tool's Price:");
@@ -143,7 +145,7 @@ public class Controller {
         view = View.PRODUCTS;
     }
 
-    private void newPlant(){
+    public void newPlant(){
 
 
         String name = getString("Please input the Plant's Name:");
@@ -157,7 +159,7 @@ public class Controller {
         view = View.PRODUCTS;
     }
 
-    private void switchView() {
+    public void switchView() {
 
         System.out.println("Available Views: ");
         for (View v : View.values()) {
@@ -177,7 +179,7 @@ public class Controller {
     }
 
 
-    private void open(){
+    public void open(){
         filename = getString("Enter the filename you would like to open:");
         try(BufferedReader br = new BufferedReader(new FileReader(filename))){
             this.store = new Store(br);
@@ -186,7 +188,8 @@ public class Controller {
             System.err.println("Failed to read: " +  e);
         }
     }
-    private void saveAs(){
+
+    public void saveAs(){
         String newFilename = getString("Enter the Filename to Save to:");
 
         if(newFilename.isEmpty()){
@@ -196,7 +199,7 @@ public class Controller {
         save();
     }
 
-    private void save(){
+    public void save(){
         
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename))){
             store.save(bw);
@@ -208,7 +211,7 @@ public class Controller {
 
 
 
-    private String getView() {
+    public String getView() {
 
         String result = "INVALID VIEW";
 
@@ -225,9 +228,9 @@ public class Controller {
         return result;
     }
 
-    private String clearScreen = "\n".repeat(255);
+    public String clearScreen = "\n".repeat(255);
 
-    private Integer selectFromMenu(){
+    public Integer selectFromMenu(){
         
         /*This clears the screen and prints the store name, "Main Menu" or other suitable title
 as you prefer, the main menu, data based on the view (customers, products, or orders), and the output.
@@ -244,13 +247,15 @@ Then it getInt from the user as the main menu selection. (It's fine to have off-
 
     }
 
-    private void print(String s){
+    public void print(String s){
         //appends s to output
         output = output + s + '\n';
         
     }
 
-    private String getString(String prompt){
+
+
+    public String getString(String prompt){
 
         String input = null;
 
@@ -271,7 +276,7 @@ Then it getInt from the user as the main menu selection. (It's fine to have off-
     }
 
     
-    private Integer getInt(String prompt){
+    public Integer getInt(String prompt){
 
         Integer number = null;
         
@@ -306,6 +311,7 @@ Then it getInt from the user as the main menu selection. (It's fine to have off-
         
         return number;
     }*/
+
 
     public void testData() {
             Customer c1 = new Customer("Prof Rice", "george.rice@uta.edu");
