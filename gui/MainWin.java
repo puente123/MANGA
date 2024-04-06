@@ -3,6 +3,7 @@ package gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.GridLayout;
 
 /*import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ import store.Customer;
 import store.Exposure;
 import store.Plant;
 import store.Store;
+import store.Tool;
 
 //MainWin extends JFrame
 
@@ -178,7 +180,7 @@ public class MainWin extends JFrame{
             view = View.CUSTOMERS;
             output = "Success!";
 
-            JOptionPane.showMessageDialog(this, "Success!\n" + getView());
+            JOptionPane.showMessageDialog(this, output + "\n" + getView());
 
         }
 
@@ -208,8 +210,58 @@ public class MainWin extends JFrame{
 
     protected void onInsertToolClick(){
 
+        JLabel name = new JLabel("<HTML><br/>Tool Name</HTML>");
+        JTextField nameInput = new JTextField(20);
+
+        JLabel toolPrice = new JLabel("<HTML><br/>Price</HTML>");
+        JTextField priceInput = new JTextField(20);
+
+        Object[] objects = {
+            name, nameInput,
+            toolPrice, priceInput
+        };
+
+        int button = JOptionPane.showConfirmDialog(
+            this,
+            objects,
+            "Creating New Tool",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+            );
+        
+
+        if(button == JOptionPane.OK_OPTION){
+
+            String nameString = nameInput.getText(); // Get text from the text field
+            String priceString = priceInput.getText();
+            int price = Integer.parseInt(priceString);
+            //JOptionPane.showMessageDialog(frame, "You entered: " + userInput);
+            store.addProduct(new Tool(nameString, price));
+            view = View.PRODUCTS;
+            output = "Success!";
+
+            //todo maybe add view.toString() before getView
+            JOptionPane.showMessageDialog(this, "Success!\n" + getView());
+
+        }
 
 
+        //Chat Version
+        /*if (button == JOptionPane.OK_OPTION) {
+            String nameString = nameInput.getText();
+            String priceString = priceInput.getText();
+            
+            try {
+                int price = Integer.parseInt(priceString);
+                store.addProduct(new Tool(nameString, price));
+                view = View.PRODUCTS;
+                output = "Success!";
+                JOptionPane.showMessageDialog(this, "Success!\n" + getView());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid price. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }*/
+    
     }
 
     protected void onInsertPlantClick(){
@@ -240,27 +292,128 @@ public class MainWin extends JFrame{
 
         if(button == JOptionPane.OK_OPTION){
 
+            //Remember to edit all string completely before passing
             String nameString = nameInput.getText(); // Get text from the text field
-            String exposureString = exposureInput.getText();
-            Exposure plantExposure = Exposure.valueOf(exposureString.toUpperCase());
-            int price = Integer.parseInt(plantPrice.getText());
+            String exposureString = exposureInput.getText().toUpperCase();
+            String priceString = priceInput.getText();
+            Exposure plantExposure = Exposure.valueOf(exposureString);
+            int price = Integer.parseInt(priceString);
             //JOptionPane.showMessageDialog(frame, "You entered: " + userInput);
             store.addProduct(new Plant(nameString, price, plantExposure));
+            store.addProduct(new Plant("Acorn", 45, Exposure.valueOf("SUN")));
             view = View.PRODUCTS;
             output = "Success!";
 
             //todo maybe add view.toString() before getView
-            JOptionPane.showMessageDialog(this, output + "\n" + getView());
+            JOptionPane.showMessageDialog(this, "Success!\n" + getView());
 
         }
     
-    
-
     }
-
+    
+    private static int orderNumber;
     protected void onInsertOrderClick(){
 
+        JPopupMenu popup = new JPopupMenu("Placing a New Order");
 
+        //creating buttons and text fields for popup
+        JButton exit = new JButton("Finish Order");
+        JButton cancel = new JButton("Cancel");
+        JButton insert = new JButton("Add to Order");
+        JButton okay = new JButton("Select Customer"); //might not need okay button
+
+        String customerList = store.getCustomerList();
+        JTextArea customers = new JTextArea(customerList);
+        JLabel name = new JLabel("<HTML><br/>Customer</HTML>");
+        JTextField nameInput = new JTextField(20);
+
+        String productList = store.getProductList();
+        JTextArea products = new JTextArea(productList);
+        JLabel product= new JLabel("<HTML><br/>Product</HTML>");
+        JTextField productInput = new JTextField(20);
+    
+        JLabel quantity = new JLabel("<HTML><br/>Quantity</HTML>");
+        JTextField quantityInput = new JTextField(20);
+
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+        
+        //Setting up popop
+        popup.add(customers);
+        popup.add(name);
+        popup.add(nameInput);
+        popup.add(okay);
+        popup.add(exit);
+
+
+        popup.setVisible(true);
+        
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // This code will be executed when the button is clicked
+                popup.setVisible(false);
+            }
+        });
+
+        
+
+        okay.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // This code will be executed when the button is clicked
+                String customerString = nameInput.getText();
+                int customerNumber = Integer.parseInt(customerString);
+                //Turns customer to index
+                orderNumber = store.newOrder(customerNumber);
+            }
+        });
+        
+        insert.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // This code will be executed when the button is clicked
+                
+                String productString = productInput.getText();
+                int productInt = Integer.parseInt(productString);
+                String quantityString = quantityInput.getText();
+                int quantityInt = Integer.parseInt(quantityString);
+                store.addToOrder(orderNumber, productInt, quantityInt);
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // This code will be executed when the button is clicked
+                popup.setVisible(false);
+                view = View.PRODUCTS;
+                output = "Success!";
+
+                //todo maybe add view.toString() before getView
+                JOptionPane.showMessageDialog(MainWin.this, "Success!\n" + getView());
+            }
+        });
+
+        /*System.out.println("\nPlacing a New Order\n");
+        //Prints customer list to terminal
+        String list = store.getCustomerList();
+        int customerNumber = getInt(list + "\nPick a Customer");
+        //Turns customer to index
+        int orderNumber = store.newOrder(customerNumber);
+
+        while(true) {
+
+            int product = getInt("\n" + store.getProductList() + "\nSelect Product (Type -1 to complete order)? ");
+            if(product < 0){ 
+                break;
+            }
+
+            int quantity = getInt("How many would you like? (Type -1 to select a different product)? ");
+            if(quantity < 0) {
+                continue;
+            }
+
+            store.addToOrder(orderNumber, product, quantity);
+        }
+        print("Created Order " + orderNumber);
+        view = View.ORDERS;*/
 
     }
 
