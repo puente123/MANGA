@@ -45,6 +45,10 @@ public abstract class Product{
 		public int getPrice(){
 			return price;
 		}
+
+		public String getName(){
+			return name;
+		}
 		
 		@Override
 		public String toString(){

@@ -1,25 +1,15 @@
 package gui;
 
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.GridLayout;
-
-/*import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;*/
-
+import java.util.*;
 
 import store.Customer;
 import store.Exposure;
 import store.Plant;
 import store.Store;
 import store.Tool;
+
 
 //MainWin extends JFrame
 
@@ -310,11 +300,113 @@ public class MainWin extends JFrame{
         }
     
     }
+
+    private static int orderNumber; 
+    protected void onInsertOrderClick() {
+        String customerList = store.getCustomerList();
+        String customerString = JOptionPane.showInputDialog(null, customerList + "\nPick a Customer");
     
-    private static int orderNumber;
+        if (customerString != null) {
+            try {
+                int customerNumber = Integer.parseInt(customerString);
+                orderNumber = store.newOrder(customerNumber);
+    
+                // List to store product and quantity pairs
+                List<Map.Entry<Integer, Integer>> productQuantityList = new ArrayList<>();
+    
+                boolean continueAddingProducts = true;
+                while (continueAddingProducts) {
+                    // Generate current order display
+                    StringBuilder currentOrderBuilder = new StringBuilder();
+                    currentOrderBuilder.append("Current Order:\n");
+
+                    for (Map.Entry<Integer, Integer> entry : productQuantityList) {
+
+                        int productNumber = entry.getKey(); // Get the product number (assuming it's an int)
+                        int quantity = entry.getValue();    // Get the quantity
+
+                        // Assuming you have a method to get the item name based on its index
+                        String productName = store.getProductName(productNumber);
+                        currentOrderBuilder.append(productName).append(": ").append(quantity).append("\n");
+                    }
+
+                    
+    
+                    String productList = store.getProductList();
+                    String currentOrder = currentOrderBuilder.toString();
+                    String[] options = {"Add Product", "Finish Order", "Cancel Order"};
+                    int choice = JOptionPane.showOptionDialog(
+                            null,
+                            currentOrder,
+                            "Select Product",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            options,
+                            options[0]
+                    );
+    
+                    if (choice == 0) {
+                        // User chose "Add Product"
+                        String productString = JOptionPane.showInputDialog(null, productList + "Enter Product ID");
+                        if (productString != null) {
+                            try {
+                                int productInt = Integer.parseInt(productString);
+                                String quantityString = JOptionPane.showInputDialog(null, "Enter Quantity for Product " + productInt);
+                                if (quantityString != null) {
+                                    try {
+                                        int quantityInt = Integer.parseInt(quantityString);
+                                        productQuantityList.add(new AbstractMap.SimpleEntry<>(productInt, quantityInt));
+                                    } catch (NumberFormatException ex) {
+                                        JOptionPane.showMessageDialog(null, "Invalid quantity. Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    }
+                                } else {
+                                    // User cancelled quantity input
+                                    continueAddingProducts = false;
+                                }
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(null, "Invalid product. Please enter a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            // User cancelled product input
+                            continueAddingProducts = false;
+                        }
+                    } else if (choice == 1) {
+                        // User chose "Finish Order"
+                        continueAddingProducts = false;
+                    } else if (choice == 2) {
+                        // User chose "Cancel Order"
+                        JOptionPane.showMessageDialog(null, "Order cancelled.");
+                        return; // Exit the method
+                    } else {
+                        // User closed the dialog
+                        continueAddingProducts = false;
+                    }
+                }
+    
+                // Adding products to order
+                for (Map.Entry<Integer, Integer> entry : productQuantityList) {
+                    store.addToOrder(orderNumber, entry.getKey(), entry.getValue());
+                }
+    
+                view = View.ORDERS;
+                output = "Success!";
+                JOptionPane.showMessageDialog(null, "Order created successfully!\n" + getView());
+    
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid input. Please enter numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+
+
+
+    
+    /*private static int orderNumber;
     protected void onInsertOrderClick(){
 
-        JPopupMenu popup = new JPopupMenu("Placing a New Order");
+        //JPopupMenu popup = new JPopupMenu("Placing a New Order");
 
         //creating buttons and text fields for popup
         JButton exit = new JButton("Finish Order");
@@ -326,6 +418,7 @@ public class MainWin extends JFrame{
         JTextArea customers = new JTextArea(customerList);
         JLabel name = new JLabel("<HTML><br/>Customer</HTML>");
         JTextField nameInput = new JTextField(20);
+        nameInput.setMaximumSize(new Dimension(Short.MAX_VALUE, nameInput.getPreferredSize().height)); // Set preferred size
 
         String productList = store.getProductList();
         JTextArea products = new JTextArea(productList);
@@ -335,23 +428,37 @@ public class MainWin extends JFrame{
         JLabel quantity = new JLabel("<HTML><br/>Quantity</HTML>");
         JTextField quantityInput = new JTextField(20);
 
-        JPanel panel = new JPanel(new GridLayout(0, 2));
+        //JPanel panel = new JPanel(new GridLayout(0, 2));
+        
+        String customerString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
+        
+        String quantityString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
 
+        int customerNumber = Integer.parseInt(customerString);
+        //Turns customer to index
+        orderNumber = store.newOrder(customerNumber);
+        
+        while(quantityInt != -1)
+            String productString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
+            int productInt = Integer.parseInt(productString);
+        
+            int quantityInt = Integer.parseInt(quantityString);
+            store.addToOrder(orderNumber, productInt, quantityInt);
         
         //Setting up popop
-        popup.add(customers);
+        /*popup.add(customers);
         popup.add(name);
         popup.add(nameInput);
         popup.add(okay);
-        popup.add(exit);
+        popup.add(exit);*/
 
 
-        popup.setVisible(true);
+        //popup.setVisible(true);
         
-        cancel.addActionListener(new ActionListener() {
+        /*cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // This code will be executed when the button is clicked
-                popup.setVisible(false);
+                //popup.setVisible(false);
             }
         });
 
@@ -382,14 +489,14 @@ public class MainWin extends JFrame{
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // This code will be executed when the button is clicked
-                popup.setVisible(false);
+                //popup.setVisible(false);
                 view = View.PRODUCTS;
                 output = "Success!";
 
                 //todo maybe add view.toString() before getView
                 JOptionPane.showMessageDialog(MainWin.this, "Success!\n" + getView());
             }
-        });
+        });*/
 
         /*System.out.println("\nPlacing a New Order\n");
         //Prints customer list to terminal
@@ -413,9 +520,9 @@ public class MainWin extends JFrame{
             store.addToOrder(orderNumber, product, quantity);
         }
         print("Created Order " + orderNumber);
-        view = View.ORDERS;*/
+        view = View.ORDERS;/
 
-    }
+    }*/
 
     protected void onViewCustomerClick(){
         view = View.CUSTOMERS;
@@ -428,7 +535,7 @@ public class MainWin extends JFrame{
     }
 
     protected void onViewOrdersClick(){
-        view = View.CUSTOMERS;
+        view = View.ORDERS;
         JOptionPane.showMessageDialog(this, getView(), "Orders", JOptionPane.PLAIN_MESSAGE);
     }
 

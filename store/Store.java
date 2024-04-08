@@ -99,6 +99,10 @@ public class Store {
         return sb.toString();
     }
 
+    public String getProductName(int productIndex){
+        return products.get(productIndex).getName();
+    }
+
     public int newOrder(int customerIndex){
         
         Order newOrder = new Order(customers.get(customerIndex)); // customers.get(customerIndex) returns customer at index A[i] // This is sent as a parameter to order and creates a new order
@@ -121,5 +125,9 @@ public class Store {
 
         return list.toString();
     }
+
+    /*public String getCurrentOrder(int orderIndex){
+        return orders.get(orderIndex).toString();
+    }*/
 
 }
