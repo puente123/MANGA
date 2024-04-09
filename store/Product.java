@@ -3,6 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.sql.Connection;
 
 public abstract class Product{
      	private static int nextStockNumber = 0;
@@ -26,7 +27,7 @@ public abstract class Product{
      	}
 
 		public Product(BufferedReader br) throws IOException{
-			this.nextStockNumber = Integer.parseInt(br.readLine());//TODO check static reading from file
+			this.nextStockNumber = Integer.parseInt(br.readLine());
 			this.stockNumber = Integer.parseInt(br.readLine());
 			this.name = br.readLine();
 			this.price = Integer.parseInt(br.readLine());
@@ -37,6 +38,18 @@ public abstract class Product{
 			bw.write(name + "\n");
 			bw.write(price + "\n");
 		}
+
+
+		//constructor for DB
+		public Product(Connection connection){
+			//TODO NOT FINISHED
+		}
+
+		//saving to db method
+		public void saveToDB(Connection connection){
+			//TODO NOT FINISHED
+		}
+
      
      	public int getStockNumber(){
 			return stockNumber;

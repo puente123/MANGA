@@ -1,9 +1,6 @@
 package test;
 
-import store.Customer;
 import store.Exposure;
-import store.Item;
-import store.Order;
 import store.Plant;
 import store.Product;
 import store.Tool;

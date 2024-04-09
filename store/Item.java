@@ -3,6 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class Item{
 	
@@ -35,6 +36,16 @@ public class Item{
 		bw.write(product.getClass().getName() + "\n");
 		product.save(bw);
 		bw.write(quantity + "\n");
+	}
+
+	//constructor for DB
+	public Item(Connection connection){
+		//TODO NOT FINISHED
+	}
+
+	//saving to db method
+	public void saveToDB(Connection connection){
+		//TODO NOT FINISHED
 	}
 
 	public int getPrice(){

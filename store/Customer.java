@@ -3,6 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class Customer{
 	private String name;
@@ -38,6 +39,16 @@ public class Customer{
 	public void save(BufferedWriter bw) throws IOException{
 		bw.write(name + "\n");
 		bw.write(email + "\n");
+	}
+
+	//constructor for DB
+	public Customer(Connection connection){
+		//TODO NOT FINISHED
+	}
+
+	//saving to db method
+	public void saveToDB(Connection connection){
+		//TODO NOT FINISHED
 	}
 
 	@Override

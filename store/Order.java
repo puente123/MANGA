@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class Order{
 
@@ -44,6 +45,17 @@ public class Order{
         }
 
         customer.save(bw);
+    }
+
+
+    //constructor for DB
+    public Order(Connection connection){
+        //TODO NOT FINISHED
+    }
+
+    //saving to db method
+    public void saveToDB(Connection connection){
+        //TODO NOT FINISHED
     }
 
     public void addItem(Item item){

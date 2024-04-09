@@ -1,7 +1,5 @@
 package store;
 
-import database.DatabaseConnection;
-
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -89,6 +87,20 @@ public class Store {
 
     public void saveToDB(Connection connection){
         //TODO Not Finished
+        // Save customers
+        for (Customer customer : customers) {
+            //addCustomerToDB(customer, connection);
+        }
+
+        // Save products
+        for (Product product : products) {
+            //addProductToDB(product, connection);
+        }
+
+        // Save orders
+        for (Order order : orders) {
+            //addOrderToDB(order, connection);
+        }
     }
 
 

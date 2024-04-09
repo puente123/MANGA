@@ -2,6 +2,8 @@ package store;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Tool extends Product{
 
@@ -12,4 +14,12 @@ public class Tool extends Product{
 	public Tool(BufferedReader br) throws IOException{
 		super(br);
 	}
+
+	//constructor for DB
+	public Tool(Connection connection) throws SQLException{
+		//TODO NOT FINISHED
+		super(connection);
+	}
+
+
 }

@@ -23,7 +23,7 @@ import store.Tool;
 public class MainWin extends JFrame{
 
     private Store store;
-    private JLabel display;
+    //private JLabel display;
     private View view;
     private String output;
     private String filename;
@@ -100,7 +100,7 @@ public class MainWin extends JFrame{
 
         this.store = new Store(storeName);
         this.filename = "untitled";
-        this.display = new JLabel();
+        //this.display = new JLabel();
         this.view = View.CUSTOMERS;
 
         setLocationRelativeTo(null);
@@ -112,7 +112,7 @@ public class MainWin extends JFrame{
         
     }
 
-    protected void onSaveToDbClick(){
+    protected void onSaveToDBClick(){
 
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -122,6 +122,10 @@ public class MainWin extends JFrame{
             JOptionPane.showMessageDialog(null, "Failed to save to database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
+    }
+
+    protected void onOpenFromDBClick(){
+        
     }
 
     protected void onOpenClick(){
@@ -158,7 +162,7 @@ public class MainWin extends JFrame{
         filename = newFilename;
         onSaveClick();
     }
-    
+
 
     protected void onQuitClick(){
         System.exit(0);
