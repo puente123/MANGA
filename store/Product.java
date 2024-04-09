@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public abstract class Product{
      	private static int nextStockNumber = 0;
@@ -41,12 +42,12 @@ public abstract class Product{
 
 
 		//constructor for DB
-		public Product(Connection connection){
+		public Product(Connection connection) throws SQLException{
 			//TODO NOT FINISHED
 		}
 
 		//saving to db method
-		public void saveToDB(Connection connection){
+		public void saveToDB(Connection connection) throws SQLException{
 			//TODO NOT FINISHED
 		}
 

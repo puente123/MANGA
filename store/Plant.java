@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Plant extends Product{
 	
@@ -29,14 +30,14 @@ public class Plant extends Product{
 	}
 
 	//constructor for DB
-    public Plant(Connection connection){
+    public Plant(Connection connection) throws SQLException{
         //TODO NOT FINISHED
 		super(connection);
-		
+
     }
 
     //saving to db method
-    public void saveToDB(Connection connection){
+    public void saveToDB(Connection connection) throws SQLException{
         //TODO NOT FINISHED
     }
 	

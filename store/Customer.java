@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Customer{
 	private String name;
@@ -42,12 +43,12 @@ public class Customer{
 	}
 
 	//constructor for DB
-	public Customer(Connection connection){
+	public Customer(Connection connection) throws SQLException{
 		//TODO NOT FINISHED
 	}
 
 	//saving to db method
-	public void saveToDB(Connection connection){
+	public void saveToDB(Connection connection) throws SQLException{
 		//TODO NOT FINISHED
 	}
 
