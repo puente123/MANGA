@@ -24,6 +24,11 @@ public class Item{
 		else if(subclass.equals("store.Tool")){
 			this.product = new Tool(br);
 		}
+		else{
+			throw new IOException("Wrong Product subclass: " + subclass);
+		}
+
+		this.quantity = Integer.parseInt(br.readLine());
 	}
 
 	public void save(BufferedWriter bw) throws IOException{

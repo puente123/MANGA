@@ -20,12 +20,14 @@ public class Order{
 
     public Order(BufferedReader br) throws IOException{
 
+        this.items = new ArrayList<>();
         this.nextOrderNumber = Integer.parseInt(br.readLine());
         this.orderNumber = Integer.parseInt(br.readLine());
 
         int size = Integer.parseInt(br.readLine());
         for(int i=size; i>0; i--){
-            addItem(new Item(br));
+            //addItem(new Item(br));
+            items.add(new Item(br));
         }
 
         this.customer = new Customer(br);

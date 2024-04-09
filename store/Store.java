@@ -25,28 +25,40 @@ public class Store {
         this.products= new ArrayList<>();
         this.orders = new ArrayList<>();
 
+        //inputs name
         this.name = br.readLine();
 
+        //inputs customers
         Integer size1 = Integer.parseInt(br.readLine()); 
         for(int i = size1; i>0; i--){
             
-            addCustomer(new Customer(br));
+            //addCustomer(new Customer(br));
+            customers.add(new Customer(br));
         }
 
+        //inputs products
         Integer size2 = Integer.parseInt(br.readLine()); 
         for(int i = size2; i>0; i--){
             
             String subclass = br.readLine();
             if(subclass.equals("store.Plant")){
                 //products.add(new Plant(br));
-                addProduct(new Plant(br));
+                //addProduct(new Plant(br));
+                products.add(new Plant(br));
             } 
             else if(subclass.equals("store.Tool")){
-                //products.add(new Tool(br));
-                addProduct(new Tool(br));
+                products.add(new Tool(br));
+                //addProduct(new Tool(br));
+                //products.add(new Plant(br));
             }
-
         }
+
+        Integer size3 = Integer.parseInt(br.readLine()); 
+        for(int i = size3; i>0; i--){
+            
+            orders.add(new Order(br));
+        }
+
 
     }
 
@@ -61,7 +73,7 @@ public class Store {
 
         bw.write(products.size() + "\n");
         for(Product current : products){
-            bw.write(current.getClass().getName() + '\n');
+            bw.write(current.getClass().getName() + "\n");
             current.save(bw);
         }
 
