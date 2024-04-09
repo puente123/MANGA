@@ -2,6 +2,11 @@ package gui;
 
 
 import javax.swing.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.*;
 
 import store.Customer;
@@ -21,6 +26,7 @@ public class MainWin extends JFrame{
     private JLabel display;
     private View view;
     private String output;
+    private String filename;
 
 
 
@@ -92,24 +98,13 @@ public class MainWin extends JFrame{
 
         //display;
 
-
-
-    
-
         this.store = new Store(storeName);
-
-
-        
-
-
+        this.filename = "untitled";
         this.display = new JLabel();
         //display.add();
-
-
-
         this.view = View.CUSTOMERS;
 
-        
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }
@@ -120,16 +115,36 @@ public class MainWin extends JFrame{
 
     protected void onOpenClick(){
 
-
+        filename = JOptionPane.showInputDialog(null, "Enter the filename you would like to open:");
+        try(BufferedReader br = new BufferedReader(new FileReader(filename))){
+            this.store = new Store(br);
+        }
+        catch(Exception e){
+            System.err.println("Failed to read: " +  e);
+        }
 
     }
 
     protected void onSaveClick(){
 
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename))){
+            store.save(bw);
+        }
+        catch(Exception e){
+            System.err.println("Failed to save: " + e);
+        }
+
     }
     
     protected void onSaveAsClick(){
+    
+        String newFilename = JOptionPane.showInputDialog(null, "Enter the Filename to Save to:");
 
+        if(newFilename.isEmpty()){
+            return;
+        }
+        filename = newFilename;
+        onSaveClick();
     }
 
     protected void onQuitClick(){
@@ -153,7 +168,7 @@ public class MainWin extends JFrame{
         };
 
         int button = JOptionPane.showConfirmDialog(
-            this,
+            null,
             objects,
             "Creating New Customer Account",
             JOptionPane.OK_CANCEL_OPTION,
@@ -170,7 +185,7 @@ public class MainWin extends JFrame{
             view = View.CUSTOMERS;
             output = "Success!";
 
-            JOptionPane.showMessageDialog(this, output + "\n" + getView());
+            JOptionPane.showMessageDialog(null, output + "\n" + getView());
 
         }
 
@@ -212,7 +227,7 @@ public class MainWin extends JFrame{
         };
 
         int button = JOptionPane.showConfirmDialog(
-            this,
+            null,
             objects,
             "Creating New Tool",
             JOptionPane.OK_CANCEL_OPTION,
@@ -231,7 +246,7 @@ public class MainWin extends JFrame{
             output = "Success!";
 
             //todo maybe add view.toString() before getView
-            JOptionPane.showMessageDialog(this, "Success!\n" + getView());
+            JOptionPane.showMessageDialog(null, "Success!\n" + getView());
 
         }
 
@@ -272,7 +287,7 @@ public class MainWin extends JFrame{
         };
 
         int button = JOptionPane.showConfirmDialog(
-            this,
+            null,
             objects,
             "Creating New Plant",
             JOptionPane.OK_CANCEL_OPTION,
@@ -295,7 +310,7 @@ public class MainWin extends JFrame{
             output = "Success!";
 
             //todo maybe add view.toString() before getView
-            JOptionPane.showMessageDialog(this, "Success!\n" + getView());
+            JOptionPane.showMessageDialog(null, "Success!\n" + getView());
 
         }
     
