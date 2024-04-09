@@ -3,10 +3,14 @@ package gui;
 
 import javax.swing.*;
 
+import database.DatabaseConnection;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 import store.Customer;
@@ -16,10 +20,6 @@ import store.Store;
 import store.Tool;
 
 
-//MainWin extends JFrame
-
-    
-
 public class MainWin extends JFrame{
 
     private Store store;
@@ -27,7 +27,6 @@ public class MainWin extends JFrame{
     private View view;
     private String output;
     private String filename;
-
 
 
     public MainWin(String storeName) {
@@ -99,12 +98,9 @@ public class MainWin extends JFrame{
         setJMenuBar(menuBar);
 
 
-        //display;
-
         this.store = new Store(storeName);
         this.filename = "untitled";
         this.display = new JLabel();
-        //display.add();
         this.view = View.CUSTOMERS;
 
         setLocationRelativeTo(null);
@@ -117,7 +113,15 @@ public class MainWin extends JFrame{
     }
 
     protected void onSaveToDbClick(){
-        
+
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            store.saveToDB(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to save to database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     protected void onOpenClick(){
@@ -142,6 +146,7 @@ public class MainWin extends JFrame{
         }
 
     }
+
     
     protected void onSaveAsClick(){
     
@@ -153,14 +158,14 @@ public class MainWin extends JFrame{
         filename = newFilename;
         onSaveClick();
     }
+    
 
     protected void onQuitClick(){
         System.exit(0);
     }
 
-    protected void onInsertCustomerClick(){
 
-        //JLabel label = new JLabel("Inserting New Customer");
+    protected void onInsertCustomerClick(){
 
         //name of customer
         JLabel name = new JLabel("<HTML><br/>Name</HTML>");
@@ -174,13 +179,7 @@ public class MainWin extends JFrame{
             email, emailInput,
         };
 
-        int button = JOptionPane.showConfirmDialog(
-            null,
-            objects,
-            "Creating New Customer Account",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE
-            );
+        int button = JOptionPane.showConfirmDialog(null, objects,"Creating New Customer Account", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         
 
         if(button == JOptionPane.OK_OPTION){
@@ -195,27 +194,6 @@ public class MainWin extends JFrame{
             JOptionPane.showMessageDialog(null, output + "\n" + getView());
 
         }
-
-        /*JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nameString = nameInput.getText(); // Get text from the text field
-                String emailString = emailInput.getText();
-                //JOptionPane.showMessageDialog(frame, "You entered: " + userInput);
-                store.addCustomer(new Customer(nameString, emailString));
-            }
-        });*/
-        
-
-        //String name = getString("Please input the Customer's Name:");
-        //String email = getString("Please input the Customer's Email:");
-
-        //store.addCustomer(new Customer(nameString, emailString));
-        //Report success via output, and set the view to list customers.
-        //TODO add string output field output = "Success!";
-        //view = View.CUSTOMERS;
-
     }
 
     
@@ -256,24 +234,6 @@ public class MainWin extends JFrame{
             JOptionPane.showMessageDialog(null, "Success!\n" + getView());
 
         }
-
-
-        //Chat Version
-        /*if (button == JOptionPane.OK_OPTION) {
-            String nameString = nameInput.getText();
-            String priceString = priceInput.getText();
-            
-            try {
-                int price = Integer.parseInt(priceString);
-                store.addProduct(new Tool(nameString, price));
-                view = View.PRODUCTS;
-                output = "Success!";
-                JOptionPane.showMessageDialog(this, "Success!\n" + getView());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid price. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }*/
-    
     }
 
     protected void onInsertPlantClick(){
@@ -316,7 +276,7 @@ public class MainWin extends JFrame{
             view = View.PRODUCTS;
             output = "Success!";
 
-            //todo maybe add view.toString() before getView
+            
             JOptionPane.showMessageDialog(null, "Success!\n" + getView());
 
         }
@@ -420,131 +380,7 @@ public class MainWin extends JFrame{
             }
         }
     }
-    
 
-
-
-    
-    /*private static int orderNumber;
-    protected void onInsertOrderClick(){
-
-        //JPopupMenu popup = new JPopupMenu("Placing a New Order");
-
-        //creating buttons and text fields for popup
-        JButton exit = new JButton("Finish Order");
-        JButton cancel = new JButton("Cancel");
-        JButton insert = new JButton("Add to Order");
-        JButton okay = new JButton("Select Customer"); //might not need okay button
-
-        String customerList = store.getCustomerList();
-        JTextArea customers = new JTextArea(customerList);
-        JLabel name = new JLabel("<HTML><br/>Customer</HTML>");
-        JTextField nameInput = new JTextField(20);
-        nameInput.setMaximumSize(new Dimension(Short.MAX_VALUE, nameInput.getPreferredSize().height)); // Set preferred size
-
-        String productList = store.getProductList();
-        JTextArea products = new JTextArea(productList);
-        JLabel product= new JLabel("<HTML><br/>Product</HTML>");
-        JTextField productInput = new JTextField(20);
-    
-        JLabel quantity = new JLabel("<HTML><br/>Quantity</HTML>");
-        JTextField quantityInput = new JTextField(20);
-
-        //JPanel panel = new JPanel(new GridLayout(0, 2));
-        
-        String customerString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
-        
-        String quantityString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
-
-        int customerNumber = Integer.parseInt(customerString);
-        //Turns customer to index
-        orderNumber = store.newOrder(customerNumber);
-        
-        while(quantityInt != -1)
-            String productString = JOptionPane.showInputDialog(null, customerList + "Pick a Customer");
-            int productInt = Integer.parseInt(productString);
-        
-            int quantityInt = Integer.parseInt(quantityString);
-            store.addToOrder(orderNumber, productInt, quantityInt);
-        
-        //Setting up popop
-        /*popup.add(customers);
-        popup.add(name);
-        popup.add(nameInput);
-        popup.add(okay);
-        popup.add(exit);*/
-
-
-        //popup.setVisible(true);
-        
-        /*cancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // This code will be executed when the button is clicked
-                //popup.setVisible(false);
-            }
-        });
-
-        
-
-        okay.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // This code will be executed when the button is clicked
-                String customerString = nameInput.getText();
-                int customerNumber = Integer.parseInt(customerString);
-                //Turns customer to index
-                orderNumber = store.newOrder(customerNumber);
-            }
-        });
-        
-        insert.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // This code will be executed when the button is clicked
-                
-                String productString = productInput.getText();
-                int productInt = Integer.parseInt(productString);
-                String quantityString = quantityInput.getText();
-                int quantityInt = Integer.parseInt(quantityString);
-                store.addToOrder(orderNumber, productInt, quantityInt);
-            }
-        });
-
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // This code will be executed when the button is clicked
-                //popup.setVisible(false);
-                view = View.PRODUCTS;
-                output = "Success!";
-
-                //todo maybe add view.toString() before getView
-                JOptionPane.showMessageDialog(MainWin.this, "Success!\n" + getView());
-            }
-        });*/
-
-        /*System.out.println("\nPlacing a New Order\n");
-        //Prints customer list to terminal
-        String list = store.getCustomerList();
-        int customerNumber = getInt(list + "\nPick a Customer");
-        //Turns customer to index
-        int orderNumber = store.newOrder(customerNumber);
-
-        while(true) {
-
-            int product = getInt("\n" + store.getProductList() + "\nSelect Product (Type -1 to complete order)? ");
-            if(product < 0){ 
-                break;
-            }
-
-            int quantity = getInt("How many would you like? (Type -1 to select a different product)? ");
-            if(quantity < 0) {
-                continue;
-            }
-
-            store.addToOrder(orderNumber, product, quantity);
-        }
-        print("Created Order " + orderNumber);
-        view = View.ORDERS;/
-
-    }*/
 
     protected void onViewCustomerClick(){
         view = View.CUSTOMERS;

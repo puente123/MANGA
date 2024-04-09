@@ -1,9 +1,12 @@
 package store;
 
+import database.DatabaseConnection;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.sql.Connection;
 
 public class Store {
     private String name;
@@ -18,7 +21,7 @@ public class Store {
         this.orders = new ArrayList<>();
     }
 
-    //TODO Implement reading from file constructor
+    //Implements reading from file constructor
     public Store(BufferedReader br) throws IOException{
 
         this.customers = new ArrayList<>();
@@ -82,6 +85,10 @@ public class Store {
             current.save(bw);
         }
 
+    }
+
+    public void saveToDB(Connection connection){
+        //TODO Not Finished
     }
 
 
