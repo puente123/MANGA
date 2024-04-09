@@ -44,6 +44,7 @@ public class MainWin extends JFrame{
         JMenuItem save = new JMenuItem("Save");
         JMenuItem saveAs = new JMenuItem("Save As");
         JMenuItem quit = new JMenuItem("Quit");
+        JMenuItem open = new JMenuItem("Open");
 
         JMenu options = new JMenu("Options");
         JMenuItem addCustomer = new JMenuItem("Add a New Customer");
@@ -61,6 +62,7 @@ public class MainWin extends JFrame{
         quit.addActionListener(event -> onQuitClick());
         save.addActionListener(event -> onSaveClick());
         saveAs.addActionListener(event -> onSaveAsClick());
+        open.addActionListener(event -> onOpenClick());
 
         addCustomer.addActionListener(event -> onInsertCustomerClick());
         addOrder.addActionListener(event -> onInsertOrderClick());
@@ -74,6 +76,7 @@ public class MainWin extends JFrame{
         //help.addActionListener(even -> OnHelpClick());
         about.addActionListener(event -> onAboutClick());
 
+        file.add(open);
         file.add(save);
         file.add(saveAs);
         file.add(quit);
