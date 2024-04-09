@@ -116,6 +116,10 @@ public class MainWin extends JFrame{
         
     }
 
+    protected void onSaveToDbClick(){
+        
+    }
+
     protected void onOpenClick(){
 
         filename = JOptionPane.showInputDialog(null, "Enter the filename you would like to open:");
