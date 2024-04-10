@@ -39,6 +39,7 @@ public class Plant extends Product{
     //saving to db method
     public void saveToDB(Connection connection) throws SQLException{
         //TODO NOT FINISHED
+		
     }
 	
 	
