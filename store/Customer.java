@@ -49,9 +49,9 @@ public class Customer{
 	}
 
 	//saving to db method
-	public void saveToDB(String name, Connection connection) throws SQLException{
+	public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
 		//TODO NOT FINISHED
-		String query = "INSERT INTO customers (name, email) VALUES (?, ?)";
+		String query = "INSERT INTO " +tablePrefix + "customers (name, email) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);

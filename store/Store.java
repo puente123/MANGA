@@ -91,12 +91,13 @@ public class Store {
 
     public void saveToDB(Connection connection) throws SQLException{
         //TODO Not Finished
+        String tablePrefix = name.toLowerCase() + "_";
 
-        DatabaseSchemaManager.createTables(name, connection);
+        DatabaseSchemaManager.createTables(tablePrefix, connection);
         // Save customers
         for (Customer customer : customers) {
             //addCustomerToDB(customer, connection);
-             customer.saveToDB(connection);
+             customer.saveToDB(tablePrefix, connection);
         }
 
         // Save products
