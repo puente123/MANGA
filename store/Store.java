@@ -1,6 +1,9 @@
 package store;
 
 import java.util.ArrayList;
+
+import database.DatabaseSchemaManager;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -88,9 +91,12 @@ public class Store {
 
     public void saveToDB(Connection connection) throws SQLException{
         //TODO Not Finished
+
+        DatabaseSchemaManager.createTables(name, connection);
         // Save customers
         for (Customer customer : customers) {
             //addCustomerToDB(customer, connection);
+             customer.saveToDB(connection);
         }
 
         // Save products

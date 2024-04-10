@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Customer{
@@ -48,8 +49,15 @@ public class Customer{
 	}
 
 	//saving to db method
-	public void saveToDB(Connection connection) throws SQLException{
+	public void saveToDB(String name, Connection connection) throws SQLException{
 		//TODO NOT FINISHED
+		String query = "INSERT INTO customers (name, email) VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.executeUpdate();
+		}
+
 	}
 
 	@Override
