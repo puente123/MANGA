@@ -103,6 +103,7 @@ public class Store {
         // Save products
         for (Product product : products) {
             //addProductToDB(product, connection);
+            product.saveToDB(tablePrefix, connection);
         }
 
         // Save orders

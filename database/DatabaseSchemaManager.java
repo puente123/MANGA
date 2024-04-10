@@ -16,7 +16,7 @@ public class DatabaseSchemaManager {
             //String customerTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "customers (id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))";
             String customerTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "customers (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255))";
 
-            String productTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "products (id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10,2)), stockNumber INT, nextStockNumber INT, isPlant ENUM('true', 'false'), exposure VARCHAR(255)";
+            String productTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "products (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT, stockNumber INT, nextStockNumber INT, isPlant ENUM('true', 'false'), exposure VARCHAR(255))";
             //TODO create if else for tool and plant
             //String orderTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "orders (id INT PRIMARY KEY, name VARCHAR(255), price DECIMAL(10,2))";
             // Add more tables as needed

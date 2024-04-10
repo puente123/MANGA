@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public abstract class Product{
@@ -47,8 +48,19 @@ public abstract class Product{
 		}
 
 		//saving to db method
-		public void saveToDB(Connection connection) throws SQLException{
+		public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
+
+			// Table Initialization, String productTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "products (id INT PRIMARY KEY, name VARCHAR(255), price INT, stockNumber INT, nextStockNumber INT, isPlant ENUM('true', 'false'), exposure VARCHAR(255)";
+
 			//TODO NOT FINISHED
+			String query = "INSERT INTO " + tablePrefix + "products (name, price, stockNumber, nextStockNumber) VALUES (?, ?, ?, ?)";
+			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+				preparedStatement.setString(1, name);
+				preparedStatement.setInt(2, price);
+				preparedStatement.setInt(3, stockNumber);
+				preparedStatement.setInt(4, nextStockNumber);
+				preparedStatement.executeUpdate();
+			}
 		}
 
      
