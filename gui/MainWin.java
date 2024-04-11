@@ -45,6 +45,7 @@ public class MainWin extends JFrame{
         JMenuItem saveToDB = new JMenuItem("Save To DB");
         JMenuItem quit = new JMenuItem("Quit");
         JMenuItem open = new JMenuItem("Open");
+        JMenuItem openFromDB = new JMenuItem("Open From DB");
 
         JMenu options = new JMenu("Options");
         JMenuItem addCustomer = new JMenuItem("Add a New Customer");
@@ -64,6 +65,7 @@ public class MainWin extends JFrame{
         saveAs.addActionListener(event -> onSaveAsClick());
         saveToDB.addActionListener(event -> onSaveToDBClick());
         open.addActionListener(event -> onOpenClick());
+        openFromDB.addActionListener(event -> onOpenFromDBClick());
 
         addCustomer.addActionListener(event -> onInsertCustomerClick());
         addOrder.addActionListener(event -> onInsertOrderClick());
@@ -78,6 +80,7 @@ public class MainWin extends JFrame{
         about.addActionListener(event -> onAboutClick());
 
         file.add(open);
+        file.add(openFromDB);
         file.add(save);
         file.add(saveAs);
         file.add(saveToDB);
@@ -128,7 +131,19 @@ public class MainWin extends JFrame{
     }
 
     protected void onOpenFromDBClick(){
-        
+
+        //TODO currently database doesnt save store name it assumes the prefix of the database tables is the store name, which might not always be the case
+        String databaseName = JOptionPane.showInputDialog(null, "Enter the Database to Open:");
+
+        try(Connection connection = DatabaseConnection.getConnection()){
+            this.store = new Store(databaseName, connection);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to open database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
     }
 
     protected void onOpenClick(){

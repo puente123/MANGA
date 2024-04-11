@@ -7,8 +7,8 @@ import database.DatabaseSchemaManager;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 public class Store {
     private String name;
@@ -21,6 +21,24 @@ public class Store {
         this.customers = new ArrayList<>();
         this.products= new ArrayList<>();
         this.orders = new ArrayList<>();
+    }
+
+    public Store(String databaseName, Connection connection) throws SQLException{
+        this.customers = new ArrayList<>();
+        this.products= new ArrayList<>();
+        this.orders = new ArrayList<>();
+        this.name = databaseName;
+
+        String tablePrefix = databaseName.toLowerCase() + "_";
+
+        String query = "SELECT * FROM " + tablePrefix + "customers";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    customers.add(new Customer(resultSet, connection));
+                }
+            }
     }
 
     //Implements reading from file constructor

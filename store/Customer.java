@@ -3,7 +3,7 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -44,8 +44,11 @@ public class Customer{
 	}
 
 	//constructor for DB
-	public Customer(Connection connection) throws SQLException{
+	public Customer(ResultSet result, Connection connection) throws SQLException{
 		//TODO NOT FINISHED
+		this.name = result.getString("name");
+		this.email = result.getString("email");
+		
 	}
 
 	//saving to db method
@@ -53,7 +56,7 @@ public class Customer{
 
 		
 		//TODO NOT FINISHED
-		String query = "INSERT INTO " +tablePrefix + "customers (name, email) VALUES (?, ?)";
+		String query = "INSERT INTO " + tablePrefix + "customers (name, email) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
