@@ -78,10 +78,10 @@ public class Order{
         }
 
 
-        //String orderTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "orders (id INT PRIMARY KEY AUTO_INCREMENT, orderNumber INT, nextOrderNumber INT, FOREIGN KEY (customer_id) REFERENCES " + tablePrefix + "customers(id))";
+        //String orderTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "orders (id INT PRIMARY KEY AUTO_INCREMENT, orderNumber INT, nextOrderNumber INT, customer_id INT, FOREIGN KEY (customer_id) REFERENCES " + tablePrefix + "customers(id))";
         //String itemTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "order_items( id INT PRIMARY KEY AUTO_INCREMENT, order_id INT, product_id INT, quantity INT, FOREIGN KEY (order_id) REFERENCES " + tablePrefix + "orders(id), FOREIGN KEY (product_id) REFERENCES " + tablePrefix + "products(id))";
 
-        query = "INSERT INTO " + tablePrefix + "orders (orderNumber, nextOrderNumber, ) VALUES (?, ?, ?)";
+        query = "INSERT INTO " + tablePrefix + "orders (orderNumber, nextOrderNumber, customer_id) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, orderNumber);
             preparedStatement.setInt(2, nextOrderNumber);
