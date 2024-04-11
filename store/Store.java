@@ -59,19 +59,13 @@ public class Store {
                 }
             }
 
-        query = "SELECT * FROM " + tablePrefix + "products";
+        //Inserting Orders
+        query = "SELECT * FROM " + tablePrefix + "orders";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                     ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 while (resultSet.next()) {
-
-                    if(resultSet.getBoolean("isPlant") == true){
-                        products.add(new Plant(resultSet, connection));
-                    }
-                    else{
-                        products.add(new Tool(resultSet, connection));
-                    }   
-                    
+                    orders.add(new Order(tablePrefix, resultSet, connection));
                 }
             }
     

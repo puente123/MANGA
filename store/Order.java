@@ -50,13 +50,39 @@ public class Order{
 
 
     //constructor for DB
-    public Order(Connection connection) throws SQLException{
+    public Order(String tablePrefix, ResultSet result, Connection connection) throws SQLException{
         //TODO NOT FINISHED
+        this.items = new ArrayList<>();
+
+        this.nextOrderNumber = result.getInt("nextOrderNumber");
+        this.orderNumber = result.getInt("orderNumber");
+
+        //get customer
+        int customerId = result.getInt("customer_id");
+        String query = "SELECT c.name, c.email FROM " + tablePrefix + "customers c JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " +customerId;
+        String query1 = "SELECT * FROM " + tablePrefix + "customers c WHERE c.id = " + customerId;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query1); ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                this.customer = new Customer(resultSet, connection);
+            } else {
+                // Handle case where customer with given ID is not found
+                
+            }
+        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        items.add(new Item(new Tool("hammer", 15), 13));
+
+
     }
 
     //saving to db method
     public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
-        //TODO NOT FINISHED
+        
 
         //Maybe change default value//This code gets customer ID
         Integer customerId = null;
@@ -70,6 +96,7 @@ public class Order{
                 customerId = rs.getInt("id");
             } else {
                 // Customer not found, handle this case as needed
+                System.out.println("Customer Id not found");
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Handle potential exceptions better in your application
