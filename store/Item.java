@@ -47,12 +47,11 @@ public class Item{
 	}
 
 	//saving to db method
-	public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
+	public void saveToDB(String tablePrefix, Connection connection, int orderId) throws SQLException{
 		//TODO NOT FINISHED
 		//get order id
 		//get product id
-		product.getName();
-		product.getPrice();
+		
 
 		//Maybe change default value//This code gets product ID
         Integer productId = null;
@@ -66,7 +65,9 @@ public class Item{
                 productId = rs.getInt("id");
             } else {
                 // Customer not found, handle this case as needed
+				System.out.println("Customer not found: Item.java");
             }
+
         } catch (SQLException e) {
             e.printStackTrace(); // Handle potential exceptions better in your application
         }

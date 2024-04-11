@@ -87,12 +87,31 @@ public class Order{
             preparedStatement.setInt(2, nextOrderNumber);
             preparedStatement.setInt(3, customerId);
             preparedStatement.executeUpdate();
+
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            int orderId = -1;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            } else {
+                // Handle no generated key
+                System.out.println("Generated Key not found: Order.java");
+            }
+
+        // Save items
+        for (Item current : items) {
+            current.saveToDB(tablePrefix, connection, orderId);
+        }
+
 		}
 
-        bw.write(items.size() + "\n");
+
+
+
+        /*bw.write(items.size() + "\n");
         for(Item current : items){
             current.saveToDB(tablePrefix, connection);
-        }
+        }*/
 
 
     }
