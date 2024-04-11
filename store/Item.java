@@ -42,8 +42,29 @@ public class Item{
 	}
 
 	//constructor for DB
-	public Item(Connection connection) throws SQLException{
+	public Item(String tablePrefix, ResultSet result, Connection connection) throws SQLException{
 		//TODO NOT FINISHED
+
+		this.quantity = result.getInt("i.quantity");
+		
+		int productId = result.getInt("i.product_id");
+
+		String query = "SELECT * FROM " + tablePrefix + "products WHERE id = " + productId;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query); ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    if(resultSet.getBoolean("isPlant") == true){
+                        this.product = new Plant(resultSet, connection);
+                    }
+                    else{
+                        this.product = new Tool(resultSet, connection);
+                    }   
+                    
+                }
+            }
+
+		
 	}
 
 	//saving to db method
