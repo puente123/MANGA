@@ -50,6 +50,8 @@ public class Customer{
 
 	//saving to db method
 	public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
+
+		
 		//TODO NOT FINISHED
 		String query = "INSERT INTO " +tablePrefix + "customers (name, email) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -59,6 +61,16 @@ public class Customer{
 		}
 
 	}
+
+	public String getName(){
+		return name;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+
+
 
 	@Override
 	public String toString(){

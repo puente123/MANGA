@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Order{
@@ -55,8 +57,44 @@ public class Order{
     }
 
     //saving to db method
-    public void saveToDB(Connection connection) throws SQLException{
+    public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
         //TODO NOT FINISHED
+
+        //Maybe change default value//This code gets customer ID
+        Integer customerId = null;
+        String query = "SELECT id FROM " + tablePrefix + "customers WHERE name = ? AND email = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, customer.getName());
+            pstmt.setString(2, customer.getEmail());
+            
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                customerId = rs.getInt("id");
+            } else {
+                // Customer not found, handle this case as needed
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle potential exceptions better in your application
+        }
+
+
+        //String orderTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "orders (id INT PRIMARY KEY AUTO_INCREMENT, orderNumber INT, nextOrderNumber INT, FOREIGN KEY (customer_id) REFERENCES " + tablePrefix + "customers(id))";
+        //String itemTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "order_items( id INT PRIMARY KEY AUTO_INCREMENT, order_id INT, product_id INT, quantity INT, FOREIGN KEY (order_id) REFERENCES " + tablePrefix + "orders(id), FOREIGN KEY (product_id) REFERENCES " + tablePrefix + "products(id))";
+
+        query = "INSERT INTO " + tablePrefix + "orders (orderNumber, nextOrderNumber, ) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, orderNumber);
+            preparedStatement.setInt(2, nextOrderNumber);
+            preparedStatement.setInt(3, customerId);
+            preparedStatement.executeUpdate();
+		}
+
+        bw.write(items.size() + "\n");
+        for(Item current : items){
+            current.saveToDB(tablePrefix, connection);
+        }
+
+
     }
 
     public void addItem(Item item){

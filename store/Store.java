@@ -109,6 +109,7 @@ public class Store {
         // Save orders
         for (Order order : orders) {
             //addOrderToDB(order, connection);
+            order.saveToDB(tablePrefix, connection);
         }
     }
 
