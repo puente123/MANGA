@@ -31,6 +31,8 @@ public class Store {
 
         String tablePrefix = databaseName.toLowerCase() + "_";
 
+
+        //Inserting Customers
         String query = "SELECT * FROM " + tablePrefix + "customers";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -39,6 +41,41 @@ public class Store {
                     customers.add(new Customer(resultSet, connection));
                 }
             }
+
+        //Inserting Products
+        query = "SELECT * FROM " + tablePrefix + "products";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    if(resultSet.getBoolean("isPlant") == true){
+                        products.add(new Plant(resultSet, connection));
+                    }
+                    else{
+                        products.add(new Tool(resultSet, connection));
+                    }   
+                    
+                }
+            }
+
+        query = "SELECT * FROM " + tablePrefix + "products";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    if(resultSet.getBoolean("isPlant") == true){
+                        products.add(new Plant(resultSet, connection));
+                    }
+                    else{
+                        products.add(new Tool(resultSet, connection));
+                    }   
+                    
+                }
+            }
+    
+        
     }
 
     //Implements reading from file constructor

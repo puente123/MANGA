@@ -3,9 +3,8 @@ package store;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 public class Plant extends Product{
 	
@@ -31,20 +30,23 @@ public class Plant extends Product{
 	}
 
 	//constructor for DB
-    public Plant(Connection connection) throws SQLException{
+    public Plant(ResultSet result, Connection connection) throws SQLException{
         //TODO NOT FINISHED
-		super(connection);
+		super(result, connection);
+
+		this.exposure = Exposure.valueOf(result.getString("exposure"));
+
 
     }
 
     //saving to db method
     public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
-        //TODO NOT FINISHED
+        
 		// Table Initialization, String productTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "products (id INT PRIMARY KEY, name VARCHAR(255), price INT, stockNumber INT, nextStockNumber INT, isPlant ENUM('true', 'false'), exposure VARCHAR(255)";
 
 		super.saveToDB(tablePrefix, connection);
 
-		//TODO NOT FINISHED  change query to UPDATE not insert
+		
 		/*update DemoTable
    -> set Name='Robert'
    -> order by Id DESC limit 1; */

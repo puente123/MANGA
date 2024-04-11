@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class Product{
@@ -43,8 +44,12 @@ public abstract class Product{
 
 
 		//constructor for DB
-		public Product(Connection connection) throws SQLException{
+		public Product(ResultSet result, Connection connection) throws SQLException{
 			//TODO NOT FINISHED
+			this.name = result.getString("name");
+			this.stockNumber = result.getInt("stockNumber");
+			this.nextStockNumber = result.getInt("nextStockNumber");
+			this.price = result.getInt("price");
 		}
 
 		//saving to db method
@@ -52,7 +57,7 @@ public abstract class Product{
 
 			// Table Initialization, String productTable = "CREATE TABLE IF NOT EXISTS " + tablePrefix + "products (id INT PRIMARY KEY, name VARCHAR(255), price INT, stockNumber INT, nextStockNumber INT, isPlant ENUM('true', 'false'), exposure VARCHAR(255)";
 
-			//TODO NOT FINISHED
+			
 			String query = "INSERT INTO " + tablePrefix + "products (name, price, stockNumber, nextStockNumber) VALUES (?, ?, ?, ?)";
 			try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 				preparedStatement.setString(1, name);
