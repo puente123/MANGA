@@ -61,10 +61,10 @@ public class Order{
         int customerId = result.getInt("customer_id");
         //String query = "SELECT c.name, c.email FROM " + tablePrefix + "customers c JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " +customerId;
         String query1 = "SELECT * FROM " + tablePrefix + "customers c WHERE c.id = " + customerId;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query1); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (PreparedStatement preparedStatement1 = connection.prepareStatement(query1); ResultSet resultSet1 = preparedStatement1.executeQuery()) {
 
-            if (resultSet.next()) {
-                this.customer = new Customer(resultSet, connection);
+            if (resultSet1.next()) {
+                this.customer = new Customer(resultSet1, connection);
             } else {
                 // Handle case where customer with given ID is not found
 
@@ -75,21 +75,21 @@ public class Order{
         }
 
 
-        //inserting items
+        //inserting items//problem with 79 id and 
         int orderId = result.getInt("id");
         String query2 = "SELECT * FROM " + tablePrefix + "order_items i JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " +customerId;
         String query = "SELECT * FROM " + tablePrefix + "order_items i WHERE i.order_id = " + orderId;
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (PreparedStatement preparedStatement2 = connection.prepareStatement(query); ResultSet resultSet2 = preparedStatement2.executeQuery()) {
 
-            while(resultSet.next()) {
+            while(resultSet2.next()) {
 
-                int productId = resultSet.getInt("product_id");
+                int productId = resultSet2.getInt("product_id");
                 String query3 = "SELECT * FROM " + tablePrefix + "products p JOIN " + tablePrefix + "order_items i ON p.id = i.product_id WHERE p.id = " + productId; 
-                try (PreparedStatement statemtn2 = connection.prepareStatement(query3); ResultSet resultSet2 = preparedStatement.executeQuery()) {
+                try (PreparedStatement preparedStatement3 = connection.prepareStatement(query3); ResultSet resultSet3 = preparedStatement3.executeQuery()) {
 
                     if (resultSet2.next()) {
-                        items.add(new Item(tablePrefix, resultSet2, connection));
+                        items.add(new Item(tablePrefix, resultSet3, connection));
                     } else {
                         // Handle case where customer with given ID is not found
         
