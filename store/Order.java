@@ -76,11 +76,11 @@ public class Order{
 
 
         //inserting items//problem with 79 id and 
-        int orderId = result.getInt("id");
-        String query2 = "SELECT * FROM " + tablePrefix + "order_items i JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " +customerId;
-        String query = "SELECT * FROM " + tablePrefix + "order_items i WHERE i.order_id = " + orderId;
+        int orderId = result.getInt("orderNumber");
+        String querymaybe = "SELECT * FROM " + tablePrefix + "order_items i JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " + customerId;
+        String query2 = "SELECT * FROM " + tablePrefix + "order_items i WHERE i.order_id = " + orderId;
 
-        try (PreparedStatement preparedStatement2 = connection.prepareStatement(query); ResultSet resultSet2 = preparedStatement2.executeQuery()) {
+        try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2); ResultSet resultSet2 = preparedStatement2.executeQuery()) {
 
             while(resultSet2.next()) {
 
@@ -88,7 +88,7 @@ public class Order{
                 String query3 = "SELECT * FROM " + tablePrefix + "products p JOIN " + tablePrefix + "order_items i ON p.id = i.product_id WHERE p.id = " + productId; 
                 try (PreparedStatement preparedStatement3 = connection.prepareStatement(query3); ResultSet resultSet3 = preparedStatement3.executeQuery()) {
 
-                    if (resultSet2.next()) {
+                    if (resultSet3.next()) {
                         items.add(new Item(tablePrefix, resultSet3, connection));
                     } else {
                         // Handle case where customer with given ID is not found
@@ -106,9 +106,6 @@ public class Order{
             e.printStackTrace();
         }
 
-
-
-       
 
 
     }
