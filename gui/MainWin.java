@@ -96,8 +96,8 @@ public class MainWin extends JFrame{
 
         //first row
         addCustomerButton.setBackground(Color.ORANGE);
-        addToolButton.setBackground(Color.PINK);
-        addPlantButton.setBackground(Color.CYAN);
+        addToolButton.setBackground(Color.ORANGE);
+        addPlantButton.setBackground(Color.ORANGE);
         addOrderButton.setBackground(Color.ORANGE);
         // Set foreground (text) color of buttons
         addCustomerButton.setForeground(Color.BLACK);
@@ -107,8 +107,8 @@ public class MainWin extends JFrame{
 
         //second row
         viewCustomersButton.setBackground(Color.ORANGE);
-        viewOrdersButton.setBackground(Color.PINK);
-        viewProductsButton.setBackground(Color.CYAN);
+        viewOrdersButton.setBackground(Color.ORANGE);
+        viewProductsButton.setBackground(Color.ORANGE);
 
         // Set foreground (text) color of buttons
         viewCustomersButton.setForeground(Color.BLACK);
@@ -161,10 +161,10 @@ public class MainWin extends JFrame{
         buttonPanel2.add(viewProductsButton);
 
 
-        getContentPane().setBackground(Color.blue);
-        buttonPanel.setBackground(Color.blue);
-        buttonPanel2.setBackground(Color.blue);
-        mainPanel.setForeground(Color.blue);
+        getContentPane().setBackground(Color.gray);
+        buttonPanel.setBackground(Color.gray);
+        buttonPanel2.setBackground(Color.gray);
+        mainPanel.setForeground(Color.gray);
         
         String displayName = storeName + "'s Store";
         JLabel storeLabel = new JLabel(displayName, SwingConstants.CENTER);
