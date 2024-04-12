@@ -12,6 +12,12 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 
 import store.Customer;
 import store.Exposure;
@@ -32,11 +38,20 @@ public class MainWin extends JFrame{
     public MainWin(String storeName) {
         super(storeName);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(700, 500);
 
         //Menu
         //Create Menu Bar
         JMenuBar menuBar = new JMenuBar();
+        JPanel mainPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel2= new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setPreferredSize(new Dimension(600, 300));
+        mainPanel.add(buttonPanel);
+        mainPanel.add(buttonPanel2);
+    
 
         //Link Menu Bar Together
         JMenu file = new JMenu ("File");
@@ -56,8 +71,48 @@ public class MainWin extends JFrame{
         JMenuItem viewOrders = new JMenuItem("View Orders");
         JMenuItem viewProducts = new JMenuItem("View Products");
 
+
+        JButton addCustomerButton = new JButton("Add a New Customer");
+        JButton addToolButton = new JButton("Add a New Tool");
+        JButton addPlantButton = new JButton("Add a New Plant");
+        JButton addOrderButton = new JButton("Create a New Order");
+        JButton viewCustomersButton = new JButton("View Customers");
+        JButton viewOrdersButton = new JButton("View Orders");
+        JButton viewProductsButton = new JButton("View Products");
+
         JMenu help = new JMenu("Help");
         JMenuItem about= new JMenuItem("About");
+
+        Dimension buttonSize = new Dimension(150, 50);
+        addCustomerButton.setPreferredSize(buttonSize);
+        addToolButton.setPreferredSize(buttonSize);
+        addPlantButton.setPreferredSize(buttonSize);
+        addOrderButton.setPreferredSize(buttonSize);
+        viewCustomersButton.setPreferredSize(buttonSize);
+        viewOrdersButton.setPreferredSize(buttonSize);
+        viewProductsButton.setPreferredSize(buttonSize);
+
+
+        //first row
+        addCustomerButton.setBackground(Color.ORANGE);
+        addToolButton.setBackground(Color.PINK);
+        addPlantButton.setBackground(Color.CYAN);
+        addOrderButton.setBackground(Color.ORANGE);
+        // Set foreground (text) color of buttons
+        addCustomerButton.setForeground(Color.BLACK);
+        addToolButton.setForeground(Color.BLACK);
+        addPlantButton.setForeground(Color.BLACK);
+        addOrderButton.setForeground(Color.BLACK);
+
+        //second row
+        viewCustomersButton.setBackground(Color.ORANGE);
+        viewOrdersButton.setBackground(Color.PINK);
+        viewProductsButton.setBackground(Color.CYAN);
+
+        // Set foreground (text) color of buttons
+        viewCustomersButton.setForeground(Color.BLACK);
+        viewOrdersButton.setForeground(Color.BLACK);
+        viewProductsButton.setForeground(Color.BLACK);
 
 
         quit.addActionListener(event -> onQuitClick());
@@ -67,14 +122,24 @@ public class MainWin extends JFrame{
         open.addActionListener(event -> onOpenClick());
         openFromDB.addActionListener(event -> onOpenFromDBClick());
 
-        addCustomer.addActionListener(event -> onInsertCustomerClick());
+        /*addCustomer.addActionListener(event -> onInsertCustomerClick());
         addOrder.addActionListener(event -> onInsertOrderClick());
         addTool.addActionListener(event -> onInsertToolClick());
         addPlant.addActionListener(event -> onInsertPlantClick());
         addOrder.addActionListener(event -> onInsertOrderClick());
         viewCustomers.addActionListener(event -> onViewCustomerClick());
         viewOrders.addActionListener(event -> onViewOrdersClick());
-        viewProducts.addActionListener(event -> onViewProductsClick());
+        viewProducts.addActionListener(event -> onViewProductsClick());*/
+
+
+        addCustomerButton.addActionListener(event -> onInsertCustomerClick());
+        addOrderButton.addActionListener(event -> onInsertOrderClick());
+        addToolButton.addActionListener(event -> onInsertToolClick());
+        addPlantButton.addActionListener(event -> onInsertPlantClick());
+        viewCustomersButton.addActionListener(event -> onViewCustomerClick());
+        viewOrdersButton.addActionListener(event -> onViewOrdersClick());
+        viewProductsButton.addActionListener(event -> onViewProductsClick());
+    
 
         //help.addActionListener(even -> OnHelpClick());
         about.addActionListener(event -> onAboutClick());
@@ -85,14 +150,42 @@ public class MainWin extends JFrame{
         file.add(saveAs);
         file.add(saveToDB);
         file.add(quit);
+
+        buttonPanel.add(addCustomerButton);
+        buttonPanel.add(addToolButton);
+        buttonPanel.add(addPlantButton);
+        buttonPanel.add(addOrderButton);
+        buttonPanel2.add(viewCustomersButton);
+        buttonPanel2.add(viewOrdersButton);
+        buttonPanel2.add(viewProductsButton);
+
+
+        getContentPane().setBackground(Color.blue);
+        buttonPanel.setBackground(Color.blue);
+        buttonPanel2.setBackground(Color.blue);
+        mainPanel.setForeground(Color.blue);
+
+    
         
-        options.add(addCustomer);
+    
+        JLabel storeLabel = new JLabel(storeName, SwingConstants.CENTER);
+        Font cursiveFont = new Font("Comic Sans MS", Font.BOLD, 40);
+        storeLabel.setFont(cursiveFont);
+        storeLabel.setForeground(Color.black);
+        getContentPane().add(storeLabel, BorderLayout.CENTER);
+
+        // Add panel to the frame
+        //getContentPane().add(buttonPanel, BorderLayout.CENTER);
+        //getContentPane().add(buttonPanel2, BorderLayout.CENTER);
+        getContentPane().add(mainPanel, BorderLayout.SOUTH);
+
+        /*options.add(addCustomer);
         options.add(addTool);
         options.add(addPlant);
         options.add(addOrder);
         options.add(viewCustomers);
         options.add(viewOrders);
-        options.add(viewProducts);
+        options.add(viewProducts);*/
         
 
         help.add(about);
