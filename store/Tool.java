@@ -17,7 +17,6 @@ public class Tool extends Product{
 
 	//constructor for DB
 	public Tool(ResultSet result, Connection connection) throws SQLException{
-		//TODO NOT FINISHED
 		super(result, connection);
 	}
 

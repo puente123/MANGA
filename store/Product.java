@@ -45,7 +45,7 @@ public abstract class Product{
 
 		//constructor for DB
 		public Product(ResultSet result, Connection connection) throws SQLException{
-			//TODO NOT FINISHED
+			
 			this.name = result.getString("name");
 			this.stockNumber = result.getInt("stockNumber");
 			this.nextStockNumber = result.getInt("nextStockNumber");

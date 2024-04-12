@@ -139,25 +139,22 @@ public class Store {
     }
 
     public void saveToDB(Connection connection) throws SQLException{
-        //TODO Not Finished
+        
         String tablePrefix = name.toLowerCase() + "_";
 
         DatabaseSchemaManager.createTables(tablePrefix, connection);
         // Save customers
         for (Customer customer : customers) {
-            //addCustomerToDB(customer, connection);
              customer.saveToDB(tablePrefix, connection);
         }
 
         // Save products
         for (Product product : products) {
-            //addProductToDB(product, connection);
             product.saveToDB(tablePrefix, connection);
         }
 
         // Save orders
         for (Order order : orders) {
-            //addOrderToDB(order, connection);
             order.saveToDB(tablePrefix, connection);
         }
     }

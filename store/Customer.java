@@ -45,7 +45,7 @@ public class Customer{
 
 	//constructor for DB
 	public Customer(ResultSet result, Connection connection) throws SQLException{
-		//TODO NOT FINISHED
+		
 		this.name = result.getString("name");
 		this.email = result.getString("email");
 		
@@ -54,8 +54,6 @@ public class Customer{
 	//saving to db method
 	public void saveToDB(String tablePrefix, Connection connection) throws SQLException{
 
-		
-		//TODO NOT FINISHED
 		String query = "INSERT INTO " + tablePrefix + "customers (name, email) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);

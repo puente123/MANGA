@@ -51,7 +51,7 @@ public class Order{
 
     //constructor for DB
     public Order(String tablePrefix, ResultSet result, Connection connection) throws SQLException{
-        //TODO NOT FINISHED
+        
         this.items = new ArrayList<>();
 
         this.nextOrderNumber = result.getInt("nextOrderNumber");
@@ -77,7 +77,7 @@ public class Order{
 
         //inserting items//problem with 79 id and 
         int orderId = result.getInt("orderNumber");
-        String querymaybe = "SELECT * FROM " + tablePrefix + "order_items i JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " + customerId;
+        //String querymaybe = "SELECT * FROM " + tablePrefix + "order_items i JOIN " + tablePrefix + "orders o ON c.id = o.customer_id WHERE c.id = " + customerId;
         String query2 = "SELECT * FROM " + tablePrefix + "order_items i WHERE i.order_id = " + orderId;
 
         try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2); ResultSet resultSet2 = preparedStatement2.executeQuery()) {
@@ -85,7 +85,7 @@ public class Order{
             while(resultSet2.next()) {
 
                 int productId = resultSet2.getInt("product_id");
-                String query3 = "SELECT * FROM " + tablePrefix + "products p JOIN " + tablePrefix + "order_items i ON p.id = i.product_id WHERE p.id = " + productId; 
+                String query3 = "SELECT * FROM " + tablePrefix + "products p JOIN " + tablePrefix + "order_items i ON p.id = i.product_id WHERE p.id = " + productId + " AND i.order_id  = " + orderId;
                 try (PreparedStatement preparedStatement3 = connection.prepareStatement(query3); ResultSet resultSet3 = preparedStatement3.executeQuery()) {
 
                     if (resultSet3.next()) {

@@ -12,7 +12,7 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-import java.awt.GridLayout;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -62,14 +62,14 @@ public class MainWin extends JFrame{
         JMenuItem open = new JMenuItem("Open");
         JMenuItem openFromDB = new JMenuItem("Open From DB");
 
-        JMenu options = new JMenu("Options");
+        /*JMenu options = new JMenu("Options");
         JMenuItem addCustomer = new JMenuItem("Add a New Customer");
         JMenuItem addTool = new JMenuItem("Add a New Tool");
         JMenuItem addPlant = new JMenuItem("Add a New Plant");
         JMenuItem addOrder = new JMenuItem("Create a New Order");
         JMenuItem viewCustomers = new JMenuItem("View Customers");
         JMenuItem viewOrders = new JMenuItem("View Orders");
-        JMenuItem viewProducts = new JMenuItem("View Products");
+        JMenuItem viewProducts = new JMenuItem("View Products");*/
 
 
         JButton addCustomerButton = new JButton("Add a New Customer");
@@ -82,6 +82,7 @@ public class MainWin extends JFrame{
 
         JMenu help = new JMenu("Help");
         JMenuItem about= new JMenuItem("About");
+
 
         Dimension buttonSize = new Dimension(150, 50);
         addCustomerButton.setPreferredSize(buttonSize);
@@ -164,11 +165,9 @@ public class MainWin extends JFrame{
         buttonPanel.setBackground(Color.blue);
         buttonPanel2.setBackground(Color.blue);
         mainPanel.setForeground(Color.blue);
-
-    
         
-    
-        JLabel storeLabel = new JLabel(storeName, SwingConstants.CENTER);
+        String displayName = storeName + "'s Store";
+        JLabel storeLabel = new JLabel(displayName, SwingConstants.CENTER);
         Font cursiveFont = new Font("Comic Sans MS", Font.BOLD, 40);
         storeLabel.setFont(cursiveFont);
         storeLabel.setForeground(Color.black);
@@ -187,13 +186,12 @@ public class MainWin extends JFrame{
         options.add(viewOrders);
         options.add(viewProducts);*/
         
-
         help.add(about);
 
-        menuBar.add(file);
-        menuBar.add(options);
-        menuBar.add(help);
 
+        menuBar.add(file);
+        //menuBar.add(options);
+        menuBar.add(help);
         setJMenuBar(menuBar);
 
 
@@ -226,6 +224,7 @@ public class MainWin extends JFrame{
     protected void onOpenFromDBClick(){
 
         //TODO currently database doesnt save store name it assumes the prefix of the database tables is the store name, which might not always be the case
+        //also databaseName may not be able to have spaces
         String databaseName = JOptionPane.showInputDialog(null, "Enter the Database to Open:");
 
         try(Connection connection = DatabaseConnection.getConnection()){

@@ -31,11 +31,9 @@ public class Plant extends Product{
 
 	//constructor for DB
     public Plant(ResultSet result, Connection connection) throws SQLException{
-        //TODO NOT FINISHED
+    
 		super(result, connection);
-
 		this.exposure = Exposure.valueOf(result.getString("exposure"));
-
 
     }
 

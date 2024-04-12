@@ -43,12 +43,10 @@ public class Item{
 
 	//constructor for DB
 	public Item(String tablePrefix, ResultSet result, Connection connection) throws SQLException{
-		//TODO NOT FINISHED
 
 		this.quantity = result.getInt("i.quantity");
-		
-		int productId = result.getInt("i.product_id");
 
+		int productId = result.getInt("i.product_id");
 		String query = "SELECT * FROM " + tablePrefix + "products WHERE id = " + productId;
         try (PreparedStatement preparedStatement = connection.prepareStatement(query); ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -69,11 +67,7 @@ public class Item{
 
 	//saving to db method
 	public void saveToDB(String tablePrefix, Connection connection, int orderId) throws SQLException{
-		//TODO NOT FINISHED
-		//get order id
-		//get product id
-		
-
+	
 		//Maybe change default value//This code gets product ID
         Integer productId = null;
         String query = "SELECT id FROM " + tablePrefix + "products WHERE name = ? AND price = ?";
